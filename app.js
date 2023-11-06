@@ -1,7 +1,7 @@
 const notes = require('./note');
 const yargs = require('yargs');
 
-yargs.version('1.0.0')
+yargs.version('1.0.0');
 
 yargs.command({
     command: 'add',
@@ -42,5 +42,18 @@ yargs.command({
     describe: 'List all notes',
     handler: (argv) => {
         notes.listNotes()
+    }
+}).command({
+    command: 'get',
+    describe: 'Get a note',
+    builder: {
+        title: {
+            describe: 'Note title',
+            demandOption: true,
+            type: 'string'
+        }
+    },
+    handler: (argv) => {
+        notes.getNote(argv.title)
     }
 }).parse();

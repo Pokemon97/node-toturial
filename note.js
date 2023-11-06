@@ -7,11 +7,13 @@ const getNotes = () => {
 
 const addNote = (title, content) => {
     let notes = loadNotes();
-    let duplicateNotes = notes.filter((note) => {
+    let duplicateNote = notes.find((note) => {
         return note.title === title;
     });
 
-    if (duplicateNotes.length === 0) {
+    if (duplicateNote) {
+        console.log(chalk.red.inverse('Note is already existed!'));
+    } else {
         notes.push({
             title: title,
             content: content
@@ -19,8 +21,6 @@ const addNote = (title, content) => {
         saveNotes(notes);
 
         console.log(chalk.green.inverse('New note was added!'));
-    } else {        
-        console.log(chalk.red.inverse('Note is already existed!'));
     }
 }
 
@@ -59,9 +59,24 @@ const listNotes= () => {
     });
 }
 
+const getNote = (title) => {
+    const notes = loadNotes();
+    const note = notes.find((note) => {
+        return note.title === title;
+    });
+
+    if (note) {
+        console.log(chalk.green.inverse(note.title));
+        console.log(note.content);
+    } else {
+        console.log(chalk.red.inverse('Note title "' + title + '" was not found!'));
+    }
+}
+
 module.exports = {
     getNotes: getNotes,
     addNote: addNote,
     removeNote: removeNote,
-    listNotes: listNotes
+    listNotes: listNotes,
+    getNote: getNote
 }
